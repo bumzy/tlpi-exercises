@@ -34,6 +34,7 @@ int main (int argc, char *argv[]) {
   assert(get_offset(fd) == text_len);
   assert(get_offset(d) == text_len);
   int f = fcntl(fd, F_GETFL);
+  printf("%o\n", f);
   assert(f == O_RDWR); /* O_CREAT and O_TRUNC are apparently excluded after opening the file */
   assert(fcntl(d, F_GETFL) == O_RDWR);
   int new_flags = O_RDWR | O_APPEND;

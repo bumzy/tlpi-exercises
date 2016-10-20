@@ -1,4 +1,4 @@
-/* Exercise 9-4: implement initgroups */
+/* Exercise 9-3: implement initgroups */
 
 #define _BSD_SOURCE
 
@@ -33,7 +33,7 @@ int my_initgroups(const char *user, gid_t group) {
 }
 
 int main (int argc, char *argv[]) {
-  if (my_initgroups("tim", 42) == -1) {
+  if (my_initgroups("cm", 42) == -1) {
     errExit("my_initgroups");
   }
 

@@ -2,6 +2,7 @@
 
 #define _BSD_SOURCE
 
+#include <unistd.h>
 #include <pwd.h>
 #include <ctype.h>
 #include <fcntl.h>
@@ -10,7 +11,7 @@
 #include "tlpi_hdr.h"
 
 #define STATUS_FILE_SIZE 4000
-#define CMDLINE_SIZE 2048
+#define CMDLINE_SIZE sysconf(_SC_ARG_MAX)
 
 int isNumeric (char *);
 uid_t getUIDFromProcStatus(char *, size_t);
@@ -40,6 +41,7 @@ uid_t getUIDFromProcStatus (char *status, size_t n) {
 }
 
 int main (int argc, char *argv[]) {
+  //printf("%ld\n", (long) CMDLINE_SIZE);
   if (argc != 2 || strcmp(argv[1], "--help") == 0) {
     usageErr("%s login-name\n", argv[0]);
   }
@@ -93,7 +95,7 @@ int main (int argc, char *argv[]) {
           printf("\n");
           continue;
         }
-        char cmdline[CMDLINE_SIZE];
+        char cmdline[CMDLINE_SIZE+1];
         bytesRead = read(cmdline_file, cmdline, CMDLINE_SIZE);
         if (bytesRead != -1) {
           /* replace '\0's with spaces */
@@ -102,6 +104,7 @@ int main (int argc, char *argv[]) {
               cmdline[i] = ' ';
             }
           }
+          cmdline[bytesRead] = '\0';
           printf(": %s", cmdline);
         }
         printf("\n");
