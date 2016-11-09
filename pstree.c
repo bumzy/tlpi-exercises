@@ -125,6 +125,7 @@ void gatherProcessInfo (pid_t max_pid) {
   /*if (errno != 0) {}*/
 }
 
+/*Deep First Search*/
 void printTree (int level, pid_t pid) {
   struct p_info *pi = processes_by_pid[pid];
   if (pi == NULL) { return; }

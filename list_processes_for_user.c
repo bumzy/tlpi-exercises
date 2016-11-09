@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <sys/types.h>
+#include "ugid_functions.h"
 #include "tlpi_hdr.h"
 
 #define STATUS_FILE_SIZE 4000
@@ -46,11 +47,10 @@ int main (int argc, char *argv[]) {
     usageErr("%s login-name\n", argv[0]);
   }
 
-  struct passwd *pw = getpwnam(argv[1]);
-  if (pw == NULL) {
+  uid_t uid = userIdFromName(argv[1]);
+  if(uid == -1){
     cmdLineErr("%s is not a user", argv[1]);
   }
-  uid_t uid = pw->pw_uid;
 
   DIR *proc = opendir("/proc");
   if (proc == NULL) {

@@ -24,8 +24,6 @@ int main (int argc, char *argv[]) {
     }
   }
 
-  n++; /* account for \n at the end of the file */
-
   if (optind == argc) {
     usageErr("%s [-n num] file\n", argv[0]);
   }
@@ -36,7 +34,7 @@ int main (int argc, char *argv[]) {
   char buf[BUF_SIZE];
   ssize_t numRead, numWritten;
 
-  off_t cur = lseek(fd, 0, SEEK_END);;
+  off_t cur = lseek(fd, 0, SEEK_END);
   while (cur > 0) {
     size_t toRead;
     if (cur < BUF_SIZE) {
@@ -53,7 +51,7 @@ int main (int argc, char *argv[]) {
     numRead = read(fd, buf, toRead);
     if (numRead != toRead) { errExit("couldn't read whole file\n"); }
     for (int i = numRead - 1; i >= 0; i--) {
-      if (buf[i] == '\n' && --n == 0) {
+      if (buf[i] == '\n' && n-- == 0) {
         numWritten = write(STDOUT_FILENO, &buf[i+1], numRead - (i+1));
         if (numWritten != numRead - (i+1)) { errExit("write"); }
         goto after_outer_loop;
