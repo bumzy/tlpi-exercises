@@ -15,7 +15,7 @@ int main(int argc, char const *argv[])
 			break;
 		default:
 			wait(&status);
-			printf("%d\n", WEXITSTATUS(status));
+			printf("%08x %d\n", status, WEXITSTATUS(status));
 	}
 	exit(EXIT_SUCCESS);
 }

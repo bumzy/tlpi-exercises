@@ -7,6 +7,7 @@ answer. */
 
 #include "tlpi_hdr.h"
 #include <unistd.h>
+#include <wait.h>
 
 int main (int argc, char *argv[]) {
   setbuf(stdout, NULL);
@@ -24,6 +25,8 @@ int main (int argc, char *argv[]) {
       printf("child PPID: %ld\n", (long) getppid());
       sleep(2);
       printf("child PPID: %ld\n", (long) getppid());
+      sleep(2);
+      printf("child PPID: %ld\n", (long) getppid());
       break;
     default: /* parent */
       sleep(1);
@@ -33,6 +36,7 @@ int main (int argc, char *argv[]) {
   default: /* grandparent */
     sleep(3);
     printf("grandparent exiting\n");
+    wait(NULL);
     break;
   }
 }
